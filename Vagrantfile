@@ -14,13 +14,12 @@ Vagrant.configure(2) do |config|
     # boxes at https://atlas.hashicorp.com/search.
 
     # Docker EE node for ubuntu 16.04
-    config.vm.define "ucp" do |master|
+    config.vm.define "master" do |master|
       master.vm.box = "ubuntu/xenial64"
-      master.vm.network "private_network", ip: "172.28.128.31"
+      master.vm.network "private_network", ip: "172.28.128.34"
       master.landrush.tld = 'local'
-      master.vm.hostname = "ucp.local"
+      master.vm.hostname = "master.local"
       master.landrush.enabled = true
-      master.landrush.host 'dtr.local', '172.28.128.33'
       config.vm.provider :virtualbox do |vb|
         vb.customize ["modifyvm", :id, "--memory", "8196"]
         vb.customize ["modifyvm", :id, "--cpus", "4"]
@@ -28,11 +27,11 @@ Vagrant.configure(2) do |config|
     end
 
     # Docker EE node for ubuntu 16.04
-    config.vm.define "worker-node1" do |worker1|
+    config.vm.define "worker1" do |worker1|
       worker1.vm.box = "ubuntu/xenial64"
-      worker1.vm.network "private_network", ip: "172.28.128.32"
+      worker1.vm.network "private_network", ip: "172.28.128.35"
       worker1.landrush.tld = 'local'
-      worker1.vm.hostname = "worker-node1.local"
+      worker1.vm.hostname = "worker1.local"
       worker1.landrush.enabled = true
       config.vm.provider :virtualbox do |vb|
         vb.customize ["modifyvm", :id, "--memory", "4096"]
@@ -41,13 +40,12 @@ Vagrant.configure(2) do |config|
     end
 
     # Docker EE DTR node for ubuntu 16.04
-    config.vm.define "dtr" do |worker2|
+    config.vm.define "worker2" do |worker2|
       worker2.vm.box = "ubuntu/xenial64"
-      worker2.vm.network "private_network", ip: "172.28.128.33"
+      worker2.vm.network "private_network", ip: "172.28.128.36"
       worker2.landrush.tld = 'local'
-      worker2.vm.hostname = "dtr.local"
+      worker2.vm.hostname = "worker2.local"
       worker2.landrush.enabled = true
-      worker2.landrush.host 'ucp.local', '172.28.128.31'
       config.vm.provider :virtualbox do |vb|
         vb.customize ["modifyvm", :id, "--memory", "4096"]
         vb.customize ["modifyvm", :id, "--cpus", "2"]
